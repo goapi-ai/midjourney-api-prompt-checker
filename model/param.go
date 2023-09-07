@@ -1,0 +1,26 @@
+package model
+
+var Params = []string{
+	"aspect",
+	"ar",
+	"chaos",
+	"fast",
+	"iw",
+	"no",
+	"quality",
+	"q",
+	"relax",
+	"repeat",
+	"r",
+	"seed",
+	"stop",
+	"style",
+	"stylize",
+	"s",
+	"tile",
+	"turbo",
+	"weird",
+	"niji",
+	"version",
+	"v",
+}
