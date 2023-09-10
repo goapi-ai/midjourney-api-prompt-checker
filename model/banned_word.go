@@ -1,5 +1,6 @@
 package model
 
+// https://github.com/PlexPt/midjourney-banned-prompt/tree/main
 var BannedWords = []string{
 	"blood",
 	"cutting",
