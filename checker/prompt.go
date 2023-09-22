@@ -26,7 +26,7 @@ func PreprocessPrompt(prompt string) (string, []string) {
 	for i, word := range words {
 		loweredWords[i] = strings.ToLower(word)
 	}
-	return strings.Join(loweredWords, " "), loweredWords
+	return strings.Join(words, " "), loweredWords
 }
 
 func CheckPromptBannedWords(prompt string) error {
@@ -201,13 +201,13 @@ type PromptCheckResult struct {
 }
 
 func CheckPrompt(prompt string) PromptCheckResult {
-	prompt, words := PreprocessPrompt(prompt)
-	if err := CheckPromptBannedWords(prompt); err != nil {
+	prompt, loweredWords := PreprocessPrompt(prompt)
+	if err := CheckPromptBannedWords(strings.Join(loweredWords, " ")); err != nil {
 		return PromptCheckResult{
 			ErrorMessage: err.Error(),
 		}
 	}
-	prompt, aspectRatio, err := CheckPromptParam(prompt, words)
+	prompt, aspectRatio, err := CheckPromptParam(prompt, loweredWords)
 	errorMessage := ""
 	if err != nil {
 		errorMessage = err.Error()
