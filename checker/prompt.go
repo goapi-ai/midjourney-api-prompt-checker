@@ -11,8 +11,6 @@ import (
 )
 
 const (
-	StyleRawVersion = 5.1
-
 	ErrUnReconizedParam   = "Unrecognized Param"
 	ErrInvalidParamValue  = "Invalid Param Value"
 	ErrInvalidParamFormat = "Invalid Param Format"
@@ -137,8 +135,6 @@ func CheckPromptParam(prompt string, words []string) (newPrompt, aspectRatio str
 	}
 
 	var (
-		styleValue      string
-		versionValue    float64
 		unsupportParams []string
 	)
 	for index, subString := range words {
@@ -147,10 +143,6 @@ func CheckPromptParam(prompt string, words []string) (newPrompt, aspectRatio str
 			if !CheckParamLegal(param) {
 				err = fmt.Errorf("%s: --%s", ErrUnReconizedParam, param)
 				return
-			}
-			if param == "turbo" || param == "fast" {
-				// not supporeted to change mode with param
-				unsupportParams = append(unsupportParams, fmt.Sprintf(" --%s", param))
 			}
 			if index < len(words)-1 {
 				value := words[index+1]
@@ -172,22 +164,13 @@ func CheckPromptParam(prompt string, words []string) (newPrompt, aspectRatio str
 					unsupportParams = append(unsupportParams, fmt.Sprintf(" --%s %s", param, value))
 				}
 				if param == "version" || param == "v" {
-					versionValue, err = strconv.ParseFloat(value, 64)
+					_, err = strconv.ParseFloat(value, 64)
 					if err != nil {
 						err = fmt.Errorf("%s: --%s %s", ErrInvalidParamValue, param, value)
 						return
 					}
 				}
-				if param == "style" {
-					styleValue = value
-				}
 			}
-		}
-	}
-	if versionValue >= StyleRawVersion && styleValue != "raw" {
-		newPrompt += " --style raw"
-		if styleValue != "" {
-			unsupportParams = append(unsupportParams, fmt.Sprintf(" --style %s", styleValue))
 		}
 	}
 	newPrompt = RemoveUnsupportParams(newPrompt, unsupportParams)
