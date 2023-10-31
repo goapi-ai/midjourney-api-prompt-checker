@@ -4,6 +4,7 @@ var Params = []string{
 	"aspect",
 	"ar",
 	"chaos",
+	"c",
 	"fast",
 	"iw",
 	"no",
