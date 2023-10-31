@@ -82,6 +82,17 @@ func CheckRepeatParam(param string) bool {
 	return true
 }
 
+func CheckChaosParam(param string) bool {
+	chaos, err := strconv.Atoi(param)
+	if err != nil {
+		return false
+	}
+	if chaos < 0 || chaos > 100 {
+		return false
+	}
+	return true
+}
+
 func CheckPermutation(prompt string) error {
 	if strings.Contains(prompt, "{") || strings.Contains(prompt, "}") {
 		return errors.New("Permutation Not Supported")
@@ -166,6 +177,12 @@ func CheckPromptParam(prompt string, words []string) (newPrompt, aspectRatio str
 				if param == "version" || param == "v" {
 					_, err = strconv.ParseFloat(value, 64)
 					if err != nil {
+						err = fmt.Errorf("%s: --%s %s", ErrInvalidParamValue, param, value)
+						return
+					}
+				}
+				if param == "chaos" || param == "c" {
+					if !CheckChaosParam(value) {
 						err = fmt.Errorf("%s: --%s %s", ErrInvalidParamValue, param, value)
 						return
 					}
