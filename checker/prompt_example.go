@@ -16,7 +16,7 @@ func RunPromptCheckerExample() {
 		if prompt == "quit" {
 			break
 		}
-		checkResult := CheckPrompt(prompt, true)
+		checkResult := CheckPrompt(prompt, true, "")
 		if checkResult.ErrorMessage != "" {
 			fmt.Println(checkResult.ErrorMessage)
 		} else {
