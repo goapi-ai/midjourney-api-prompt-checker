@@ -21,7 +21,9 @@ var Params = []string{
 	"tile",
 	"turbo",
 	"weird",
+	"w",
 	"niji",
 	"version",
 	"v",
+	"video",
 }
