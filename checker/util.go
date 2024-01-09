@@ -1,14 +1,20 @@
 package checker
 
-import "strings"
+import (
+	"strings"
 
-func PreprocessPrompt(prompt string) (string, []string) {
+	"mvdan.cc/xurls/v2"
+)
+
+func PreprocessPrompt(originPrompt string) (string, []string, []string) {
 	// for Apple devices
-	prompt = strings.ReplaceAll(prompt, "—", "--")
-	words := strings.Fields(strings.Trim(prompt, " "))
+	prompt := strings.ReplaceAll(originPrompt, "—", "--")
+	prompt = strings.Trim(prompt, " ")
+	words := strings.Fields(prompt)
 	loweredWords := make([]string, len(words))
 	for i, word := range words {
 		loweredWords[i] = strings.ToLower(word)
 	}
-	return strings.Join(words, " "), loweredWords
+	urls := xurls.Strict().FindAllString(originPrompt, -1)
+	return strings.Join(words, " "), loweredWords, urls
 }
